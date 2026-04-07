@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gift Sets — FRAGNEST</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--gold:#c9a84c;--gold-light:#e8c97e;--dark:#0a0a0a;--dark2:#111111;--dark3:#1a1a1a;--cream:#f5f0e8;--text-muted:#888;}
+    *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+    body{background:var(--dark);color:var(--cream);font-family:'Montserrat',sans-serif;overflow-x:hidden;}
+    .announcement{background:var(--gold);color:var(--dark);text-align:center;padding:8px 16px;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;}
+    nav{position:sticky;top:0;z-index:1000;background:rgba(10,10,10,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,0.2);padding:0 48px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:72px;}
+    .nav-left{display:flex;align-items:center;}
+    .nav-links{display:flex;align-items:center;gap:28px;list-style:none;}
+    .nav-links a{color:var(--cream);text-decoration:none;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;position:relative;transition:color .3s;}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s;}
+    .nav-links a:hover{color:var(--gold);}.nav-links a:hover::after{width:100%;}
+    .nav-dropdown{position:relative;}
+    .nav-dropdown>a::before{content:'▾';position:absolute;right:-14px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--gold);}
+    .dropdown-menu{display:none;position:absolute;top:100%;left:-20px;padding-top:16px;min-width:180px;z-index:999;}
+    .dropdown-menu::before{content:'';display:block;position:absolute;top:16px;left:0;right:0;bottom:0;background:var(--dark2);border:1px solid rgba(201,168,76,0.2);z-index:-1;}
+    .dropdown-menu a{display:block;padding:10px 24px;font-size:11px;letter-spacing:1.5px;color:var(--cream)!important;transition:background .2s;position:relative;z-index:1;}
+    .dropdown-menu>a:first-child{padding-top:18px;}.dropdown-menu>a:last-child{padding-bottom:18px;}
+    .dropdown-menu a:hover{background:rgba(201,168,76,0.1);color:var(--gold)!important;}
+    .dropdown-menu a::after{display:none!important;}.nav-dropdown:hover .dropdown-menu{display:block;}
+    .logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;letter-spacing:8px;color:var(--gold);text-transform:uppercase;text-decoration:none;}
+    .nav-right{display:flex;align-items:center;justify-content:flex-end;gap:20px;}
+    .nav-icon{background:none;border:none;cursor:pointer;color:var(--cream);transition:color .3s;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:3px;}
+    .nav-icon span{font-size:9px;font-family:'Montserrat',sans-serif;letter-spacing:1px;text-transform:uppercase;}
+    .nav-icon:hover{color:var(--gold);}
+    .cart-btn{background:var(--gold);color:var(--dark);border:none;padding:10px 20px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .3s;}
+    .cart-btn:hover{background:var(--gold-light);}
+
+    /* HERO - warm gift-giving feel */
+    .page-hero{position:relative;height:50vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(160deg,#0a0800 0%,#120f00 50%,#080600 100%);}
+    .hero-glow{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 80%,rgba(201,168,76,0.18) 0%,transparent 55%),radial-gradient(ellipse at 80% 10%,rgba(201,168,76,0.06) 0%,transparent 40%);}
+    .ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);width:2px;height:100%;background:linear-gradient(to bottom,var(--gold),transparent);opacity:0.2;}
+    .hero-content{position:relative;z-index:2;text-align:center;animation:fadeUp .9s ease both;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+    .breadcrumb{font-size:10px;letter-spacing:3px;color:var(--text-muted);text-transform:uppercase;margin-bottom:18px;}
+    .breadcrumb a{color:var(--gold);text-decoration:none;}.breadcrumb span{margin:0 8px;}
+    .hero-icon{font-size:28px;margin-bottom:16px;}
+    .page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,6vw,76px);font-weight:300;letter-spacing:6px;line-height:1;margin-bottom:14px;}
+    .page-title em{font-style:italic;color:var(--gold-light);}
+    .page-sub{font-size:11px;letter-spacing:3px;color:rgba(245,240,232,0.45);text-transform:uppercase;}
+
+    /* GIFTING PERKS */
+    .perks{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid rgba(201,168,76,0.1);}
+    .perk{padding:28px 32px;background:var(--dark2);border-right:1px solid rgba(201,168,76,0.06);display:flex;align-items:center;gap:16px;}
+    .perk:last-child{border-right:none;}
+    .perk-icon{font-size:26px;flex-shrink:0;}
+    .perk-title{font-size:11px;font-weight:600;letter-spacing:1px;color:var(--cream);margin-bottom:3px;}
+    .perk-sub{font-size:9px;letter-spacing:1px;color:var(--text-muted);}
+
+    /* OCCASION TABS */
+    .occasion-nav{background:var(--dark2);border-bottom:1px solid rgba(201,168,76,0.1);padding:0 48px;display:flex;gap:0;overflow-x:auto;}
+    .occ-tab{padding:16px 24px;font-size:10px;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent;transition:all .3s;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;font-family:'Montserrat',sans-serif;}
+    .occ-tab:hover{color:var(--cream);}
+    .occ-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+
+    /* FEATURED GIFT SET - wide card */
+    .featured-set{display:grid;grid-template-columns:1fr 1fr;margin:0;border-bottom:1px solid rgba(201,168,76,0.08);}
+    .featured-set-img{overflow:hidden;background:var(--dark3);min-height:380px;}
+    .featured-set-img img{width:100%;height:100%;object-fit:cover;min-height:380px;display:block;transition:transform .6s;}
+    .featured-set:hover .featured-set-img img{transform:scale(1.04);}
+    .featured-set-info{background:var(--dark2);padding:64px 60px;display:flex;flex-direction:column;justify-content:center;}
+    .set-tag{font-size:9px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:14px;}
+    .set-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3.5vw,48px);font-weight:300;letter-spacing:2px;line-height:1.1;margin-bottom:12px;}
+    .set-title em{font-style:italic;color:var(--gold-light);}
+    .set-includes{margin-bottom:24px;}
+    .set-includes p{font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;}
+    .set-items{display:flex;flex-wrap:wrap;gap:8px;}
+    .set-item-chip{font-size:9px;letter-spacing:1px;color:var(--text-muted);border:1px solid rgba(245,240,232,0.1);padding:4px 12px;}
+    .set-footer{display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+    .set-price{font-size:24px;color:var(--gold);font-family:'Cormorant Garamond',serif;font-weight:300;}
+    .set-save{font-size:9px;letter-spacing:2px;color:#4a9a4a;text-transform:uppercase;background:rgba(74,154,74,0.1);border:1px solid rgba(74,154,74,0.3);padding:4px 12px;}
+    .btn-primary{background:var(--gold);color:var(--dark);padding:13px 32px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:background .3s;}
+    .btn-primary:hover{background:var(--gold-light);}
+
+    /* GIFT SETS GRID */
+    .sets-section{padding:64px 48px;}
+    .sets-section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;}
+    .sets-section-header h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3.5vw,40px);font-weight:300;letter-spacing:2px;}
+    .sets-section-header p{font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;}
+    .sets-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+    .gift-card{cursor:pointer;animation:cardIn .5s ease both;border:1px solid rgba(201,168,76,0.08);transition:border-color .3s;}
+    .gift-card:hover{border-color:rgba(201,168,76,0.25);}
+    .gift-card:nth-child(1){animation-delay:.05s}.gift-card:nth-child(2){animation-delay:.1s}.gift-card:nth-child(3){animation-delay:.15s}.gift-card:nth-child(4){animation-delay:.2s}.gift-card:nth-child(5){animation-delay:.25s}.gift-card:nth-child(6){animation-delay:.3s}
+    @keyframes cardIn{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+    .gift-img-wrap{position:relative;overflow:hidden;background:var(--dark3);aspect-ratio:4/3;}
+    .gift-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s;}
+    .gift-card:hover .gift-img{transform:scale(1.05);}
+    .gift-badge{position:absolute;top:12px;left:12px;background:var(--gold);color:var(--dark);font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;}
+    .gift-badge.value{background:#4a9a4a;color:#fff;}
+    .gift-badge.popular{background:#8b4060;color:#fff;}
+    .gift-wishlist{position:absolute;top:12px;right:12px;background:rgba(10,10,10,0.65);border:none;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);font-size:15px;opacity:0;transition:opacity .3s;}
+    .gift-card:hover .gift-wishlist{opacity:1;}
+    .gift-wishlist:hover{color:#e05;}
+    .gift-info{padding:20px 20px 24px;}
+    .gift-occasion{font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:6px;}
+    .gift-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;letter-spacing:1px;margin-bottom:8px;}
+    .gift-contents{font-size:10px;letter-spacing:1px;color:var(--text-muted);margin-bottom:14px;line-height:1.7;}
+    .gift-footer{display:flex;align-items:center;justify-content:space-between;}
+    .gift-original{font-size:10px;color:var(--text-muted);text-decoration:line-through;letter-spacing:1px;}
+    .gift-price{font-size:16px;color:var(--gold);font-weight:500;letter-spacing:1px;}
+    .gift-add{background:var(--gold);color:var(--dark);border:none;padding:9px 18px;font-family:'Montserrat',sans-serif;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .3s;}
+    .gift-add:hover{background:var(--gold-light);}
+
+    /* CUSTOM GIFT BANNER */
+    .custom-banner{background:var(--dark2);padding:64px 48px;text-align:center;border-top:1px solid rgba(201,168,76,0.1);}
+    .custom-banner p.label{font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:16px;}
+    .custom-banner h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,48px);font-weight:300;letter-spacing:2px;margin-bottom:16px;}
+    .custom-banner p.desc{font-size:12px;line-height:2;color:rgba(245,240,232,0.6);max-width:560px;margin:0 auto 32px;}
+    .custom-steps{display:flex;justify-content:center;gap:64px;margin-bottom:40px;flex-wrap:wrap;}
+    .custom-step{text-align:center;}
+    .step-num{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:rgba(201,168,76,0.3);line-height:1;margin-bottom:8px;}
+    .step-label{font-size:10px;letter-spacing:2px;color:var(--cream);text-transform:uppercase;margin-bottom:4px;}
+    .step-desc{font-size:10px;color:var(--text-muted);letter-spacing:1px;}
+    .btn-outline{background:transparent;color:var(--gold);padding:13px 36px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;border:1px solid var(--gold);cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block;}
+    .btn-outline:hover{background:var(--gold);color:var(--dark);}
+
+    footer{background:#080808;padding:64px 48px 32px;border-top:1px solid rgba(201,168,76,0.15);}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;}
+    .footer-logo{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;letter-spacing:8px;color:var(--gold);margin-bottom:16px;}
+    .footer-tagline{font-size:11px;color:var(--text-muted);line-height:1.8;letter-spacing:1px;margin-bottom:24px;}
+    .footer-socials{display:flex;gap:14px;}
+    .social-link{width:36px;height:36px;border:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--text-muted);text-decoration:none;transition:all .3s;}
+    .social-link:hover{border-color:var(--gold);color:var(--gold);}
+    .footer-col h4{font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;}
+    .footer-col ul{list-style:none;}.footer-col ul li{margin-bottom:10px;}
+    .footer-col ul li a{font-size:11px;color:var(--text-muted);text-decoration:none;letter-spacing:1px;transition:color .3s;}
+    .footer-col ul li a:hover{color:var(--gold);}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,0.06);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+    .footer-bottom p{font-size:10px;color:rgba(136,136,136,0.6);letter-spacing:1px;}
+
+    @media(max-width:900px){nav{padding:0 24px;}.nav-left{display:none;}.perks{grid-template-columns:1fr 1fr;}.featured-set{grid-template-columns:1fr;}.sets-section{padding:40px 24px;}.sets-grid{grid-template-columns:1fr 1fr;}.occasion-nav{padding:0 24px;}.custom-steps{gap:32px;}.footer-grid{grid-template-columns:1fr 1fr;}}
+    @media(max-width:600px){.perks{grid-template-columns:1fr;}.perk{border-right:none;border-bottom:1px solid rgba(201,168,76,0.06);}.sets-grid{grid-template-columns:1fr;}.footer-grid{grid-template-columns:1fr;}.featured-set-info{padding:36px 24px;}}
+  </style>
+</head>
+<body>
+
+<div class="announcement">✦ Free shipping on orders above ₹1999 &nbsp;|&nbsp; New arrivals: Noir Essence Collection ✦</div>
+
+<nav>
+  <div class="nav-left">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="nav-dropdown"><a href="#">Collections &nbsp;&nbsp;</a><div class="dropdown-menu"><a href="floral-fresh.html">Floral &amp; Fresh</a><a href="woody-oud.html">Woody &amp; Oud</a><a href="oriental-amber.html">Oriental &amp; Amber</a><a href="aqua-citrus.html">Aqua &amp; Citrus</a><a href="limited-editions.html">Limited Editions</a></div></li>
+      <li class="nav-dropdown">
+        <a href="#" style="color:var(--gold)">Shop &nbsp;&nbsp;</a>
+        <div class="dropdown-menu">
+          <a href="eau-de-parfum.html">Eau de Parfum</a><a href="eau-de-toilette.html">Eau de Toilette</a>
+          <a href="gift-sets.html" style="color:var(--gold)!important">Gift Sets</a><a href="travel-size.html">Travel Size</a>
+        </div>
+      </li>
+      <li><a href="#">Our Story</a></li><li><a href="#">Journal</a></li>
+    </ul>
+  </div>
+  <a href="index.html" class="logo">FRAGNEST</a>
+  <div class="nav-right">
+    <a href="#" class="nav-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><span>Search</span></a>
+    <a href="#" class="nav-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Account</span></a>
+    <button class="cart-btn" id="cartBtn">🛒 Cart (0)</button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="hero-glow"></div>
+  <div class="ribbon"></div>
+  <div class="hero-content">
+    <p class="breadcrumb"><a href="index.html">Home</a><span>✦</span>Shop<span>✦</span>Gift Sets</p>
+    <div class="hero-icon">🎁</div>
+    <h1 class="page-title">Gift <em>Sets</em></h1>
+    <p class="page-sub">Curated with love, wrapped in luxury · 12 Sets</p>
+  </div>
+</div>
+
+<div class="perks">
+  <div class="perk"><span class="perk-icon">🎀</span><div><p class="perk-title">Luxury Gift Wrapping</p><p class="perk-sub">Complimentary on every order</p></div></div>
+  <div class="perk"><span class="perk-icon">✍️</span><div><p class="perk-title">Personal Message Card</p><p class="perk-sub">Add a handwritten note</p></div></div>
+  <div class="perk"><span class="perk-icon">🚀</span><div><p class="perk-title">Express Delivery</p><p class="perk-sub">2-day delivery available</p></div></div>
+  <div class="perk"><span class="perk-icon">💝</span><div><p class="perk-title">Save up to 30%</p><p class="perk-sub">vs buying individually</p></div></div>
+</div>
+
+<div class="occasion-nav">
+  <button class="occ-tab active" onclick="filterOcc(this,'all')">All Sets</button>
+  <button class="occ-tab" onclick="filterOcc(this,'birthday')">Birthday</button>
+  <button class="occ-tab" onclick="filterOcc(this,'anniversary')">Anniversary</button>
+  <button class="occ-tab" onclick="filterOcc(this,'wedding')">Wedding</button>
+  <button class="occ-tab" onclick="filterOcc(this,'corporate')">Corporate</button>
+  <button class="occ-tab" onclick="filterOcc(this,'festival')">Festival</button>
+</div>
+
+<!-- FEATURED GIFT SET -->
+<div class="featured-set">
+  <div class="featured-set-img"><img src="photos/velvetoud.jpg" alt="Royal Collection Set" onerror="this.style.background='linear-gradient(135deg,#100a00,#1f1400)'" /></div>
+  <div class="featured-set-info">
+    <p class="set-tag">✦ Most Gifted · 2025</p>
+    <h2 class="set-title">The Royal <em>Collection</em></h2>
+    <div class="set-includes">
+      <p>What's Inside</p>
+      <div class="set-items">
+        <span class="set-item-chip">Velvet Oud 50ml</span>
+        <span class="set-item-chip">Rose Mystique 50ml</span>
+        <span class="set-item-chip">Amber Dusk 30ml</span>
+        <span class="set-item-chip">Luxury Candle</span>
+        <span class="set-item-chip">Gold Gift Box</span>
+        <span class="set-item-chip">Message Card</span>
+      </div>
+    </div>
+    <div class="set-footer">
+      <span class="set-price">₹6,999</span>
+      <span class="set-save">Save ₹2,197</span>
+      <button class="btn-primary" onclick="addToCart(this)">Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+<!-- GIFT SETS GRID -->
+<section class="sets-section">
+  <div class="sets-section-header">
+    <div><p>✦ Curated Selections</p><h2>All Gift Sets</h2></div>
+  </div>
+  <div class="sets-grid">
+
+    <div class="gift-card" data-occ="birthday">
+      <div class="gift-img-wrap"><img src="photos/rosemy.jpg" class="gift-img" alt="Birthday Bloom" onerror="this.style.background='linear-gradient(135deg,#1a0f14,#3a2030)'"/><div class="gift-badge popular">Popular</div><button class="gift-wishlist">♡</button></div>
+      <div class="gift-info">
+        <p class="gift-occasion">🎂 Birthday</p>
+        <h3 class="gift-name">Birthday Bloom</h3>
+        <p class="gift-contents">Rose Mystique 50ml · Peony Blush 30ml · Floral Body Lotion · Ribbon Box</p>
+        <div class="gift-footer"><div class="gift-price-wrap"><p class="gift-original">₹5,499</p><p class="gift-price">₹3,999</p></div><button class="gift-add" onclick="addToCart(this)">Add to Cart</button></div>
+      </div>
+    </div>
+
+    <div class="gift-card" data-occ="anniversary">
+      <div class="gift-img-wrap"><img src="photos/oudnoir.jpg" class="gift-img" alt="Eternal Duo" onerror="this.style.background='linear-gradient(135deg,#0f0800,#2a1500)'"/><div class="gift-badge">His &amp; Hers</div><button class="gift-wishlist">♡</button></div>
+      <div class="gift-info">
+        <p class="gift-occasion">💑 Anniversary</p>
+        <h3 class="gift-name">Eternal Duo</h3>
+        <p class="gift-contents">Oud Noir 50ml (Him) · Rose Mystique 50ml (Her) · Matching Velvet Pouches</p>
+        <div class="gift-footer"><div class="gift-price-wrap"><p class="gift-original">₹7,998</p><p class="gift-price">₹5,799</p></div><button class="gift-add" onclick="addToCart(this)">Add to Cart</button></div>
+      </div>
+    </div>
+
+    <div class="gift-card" data-occ="festival">
+      <div class="gift-img-wrap"><img src="photos/attar.jpg" class="gift-img" alt="Festive Luxury" onerror="this.style.background='linear-gradient(135deg,#180c00,#302000)'"/><div class="gift-badge value">Best Value</div><button class="gift-wishlist">♡</button></div>
+      <div class="gift-info">
+        <p class="gift-occasion">✨ Festival</p>
+        <h3 class="gift-name">Festive Luxury</h3>
+        <p class="gift-contents">Oud Al Aqmar 50ml · Amber Dusk 50ml · Saffron Nights 30ml · Festive Box</p>
+        <div class="gift-footer"><div class="gift-price-wrap"><p class="gift-original">₹8,197</p><p class="gift-price">₹5,499</p></div><button class="gift-add" onclick="addToCart(this)">Add to Cart</button></div>
+      </div>
+    </div>
+
+    <div class="gift-card" data-occ="corporate">
+      <div class="gift-img-wrap"><img src="photos/citrus.jpg" class="gift-img" alt="Corporate Prestige" onerror="this.style.background='linear-gradient(135deg,#001520,#002535)'"/><div class="gift-badge">Corporate</div><button class="gift-wishlist">♡</button></div>
+      <div class="gift-info">
+        <p class="gift-occasion">💼 Corporate</p>
+        <h3 class="gift-name">Corporate Prestige</h3>
+        <p class="gift-contents">Citrus Bloom 100ml · Bergamot Wave 75ml · Branded Gift Box · Logo Card Available</p>
+        <div class="gift-footer"><div class="gift-price-wrap"><p class="gift-original">₹4,498</p><p class="gift-price">₹3,299</p></div><button class="gift-add" onclick="addToCart(this)">Add to Cart</button></div>
+      </div>
+    </div>
+
+    <div class="gift-card" data-occ="wedding">
+      <div class="gift-img-wrap"><img src="photos/jasminepure.jpg" class="gift-img" alt="Wedding Bliss" onerror="this.style.background='linear-gradient(135deg,#1a2010,#3a4020)'"/><div class="gift-badge popular">Popular</div><button class="gift-wishlist">♡</button></div>
+      <div class="gift-info">
+        <p class="gift-occasion">💍 Wedding</p>
+        <h3 class="gift-name">Wedding Bliss</h3>
+        <p class="gift-contents">Jasmine Pure 75ml · White Lotus 50ml · Tuberose Night 30ml · Ivory Keepsake Box</p>
+        <div class="gift-footer"><div class="gift-price-wrap"><p class="gift-original">₹7,097</p><p class="gift-price">₹4,999</p></div><button class="gift-add" onclick="addToCart(this)">Add to Cart</button></div>
+      </div>
+    </div>
+
+    <div class="gift-card" data-occ="birthday">
+      <div class="gift-img-wrap"><img src="photos/amberdusk.jpg" class="gift-img" alt="Discovery Set" onerror="this.style.background='linear-gradient(135deg,#1a1200,#2a2000)'"/><div class="gift-badge value">Starter Set</div><button class="gift-wishlist">♡</button></div>
+      <div class="gift-info">
+        <p class="gift-occasion">🌟 Discovery</p>
+        <h3 class="gift-name">Discovery Set</h3>
+        <p class="gift-contents">5 × 10ml Miniatures across all fragrance families · Perfect introduction to FRAGNEST</p>
+        <div class="gift-footer"><div class="gift-price-wrap"><p class="gift-original">₹2,499</p><p class="gift-price">₹1,799</p></div><button class="gift-add" onclick="addToCart(this)">Add to Cart</button></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CUSTOM GIFTING -->
+<div class="custom-banner">
+  <p class="label">✦ Bespoke Gifting</p>
+  <h2>Create Your Own Gift Set</h2>
+  <p class="desc">Choose any 2–5 fragrances, select your packaging, add a personal message — and we'll wrap it all in a handcrafted luxury box worthy of the occasion.</p>
+  <div class="custom-steps">
+    <div class="custom-step"><div class="step-num">01</div><p class="step-label">Choose Scents</p><p class="step-desc">Pick 2–5 fragrances</p></div>
+    <div class="custom-step"><div class="step-num">02</div><p class="step-label">Select Box</p><p class="step-desc">Gold, Black or White</p></div>
+    <div class="custom-step"><div class="step-num">03</div><p class="step-label">Add Message</p><p class="step-desc">Personal handwritten card</p></div>
+    <div class="custom-step"><div class="step-num">04</div><p class="step-label">We Deliver</p><p class="step-desc">Beautifully wrapped</p></div>
+  </div>
+  <a href="#" class="btn-outline">Build Your Gift Set</a>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div><div class="footer-logo">FRAGNEST</div><p class="footer-tagline">Luxury fragrances for the discerning soul.<br>Crafted with the finest ingredients from around the world.</p><div class="footer-socials"><a href="#" class="social-link">𝕏</a><a href="#" class="social-link">in</a><a href="#" class="social-link">ig</a><a href="#" class="social-link">yt</a></div></div>
+    <div class="footer-col"><h4>Shop</h4><ul><li><a href="eau-de-parfum.html">Eau de Parfum</a></li><li><a href="eau-de-toilette.html">Eau de Toilette</a></li><li><a href="gift-sets.html">Gift Sets</a></li><li><a href="travel-size.html">Travel Size</a></li></ul></div>
+    <div class="footer-col"><h4>Collections</h4><ul><li><a href="floral-fresh.html">Floral &amp; Fresh</a></li><li><a href="woody-oud.html">Woody &amp; Oud</a></li><li><a href="oriental-amber.html">Oriental &amp; Amber</a></li><li><a href="limited-editions.html">Limited Editions</a></li></ul></div>
+    <div class="footer-col"><h4>Help</h4><ul><li><a href="#">Shipping Info</a></li><li><a href="#">Returns</a></li><li><a href="#">FAQ</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2025 FRAGNEST. All rights reserved.</p><p>Made with ♥ for fragrance lovers</p></div>
+</footer>
+
+<script>
+  let cartCount=0;
+  function filterOcc(btn, occ) {
+    document.querySelectorAll('.occ-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+    document.querySelectorAll('.gift-card').forEach(c=>{c.style.display=(occ==='all'||c.dataset.occ===occ)?'block':'none';});
+  }
+  function addToCart(btn) {
+    cartCount++;document.getElementById('cartBtn').textContent=`🛒 Cart (${cartCount})`;
+    const o=btn.textContent;btn.textContent='✓ Added!';btn.style.background='#2a7a2a';btn.style.color='#fff';
+    setTimeout(()=>{btn.textContent=o;btn.style.background='';btn.style.color='';},1500);
+  }
+  document.querySelectorAll('.gift-add').forEach(b=>b.addEventListener('click',()=>addToCart(b)));
+  document.querySelectorAll('.gift-wishlist').forEach(btn=>{btn.addEventListener('click',e=>{e.stopPropagation();btn.textContent=btn.textContent==='♡'?'♥':'♡';btn.style.color=btn.textContent==='♥'?'#e05':'';});});
+</script>
+</body>
+</html>

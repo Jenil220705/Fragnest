@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Journal — FRAGNEST</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #e8c97e;
+      --dark: #0a0a0a;
+      --dark2: #111111;
+      --dark3: #1a1a1a;
+      --cream: #f5f0e8;
+      --text-muted: #888;
+      --text-soft: rgba(245,240,232,0.65);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--dark); color: var(--cream); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+
+    /* ── ANNOUNCEMENT ── */
+    .announcement { background: var(--gold); color: var(--dark); text-align: center; padding: 8px 16px; font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+
+    /* ── NAV ── */
+    nav { position: sticky; top: 0; z-index: 1000; background: rgba(10,10,10,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(201,168,76,0.2); padding: 0 48px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 72px; }
+    .nav-left { display: flex; align-items: center; }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a { color: var(--cream); text-decoration: none; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; position: relative; transition: color .3s; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--gold); transition: width .3s; }
+    .nav-links a:hover { color: var(--gold); } .nav-links a:hover::after { width: 100%; }
+    .nav-dropdown { position: relative; }
+    .nav-dropdown > a::before { content: '▾'; position: absolute; right: -14px; top: 50%; transform: translateY(-50%); font-size: 10px; color: var(--gold); }
+    .dropdown-menu { display: none; position: absolute; top: 100%; left: -20px; padding-top: 16px; min-width: 180px; z-index: 999; }
+    .dropdown-menu::before { content: ''; display: block; position: absolute; top: 16px; left: 0; right: 0; bottom: 0; background: var(--dark2); border: 1px solid rgba(201,168,76,0.2); z-index: -1; }
+    .dropdown-menu a { display: block; padding: 10px 24px; font-size: 11px; letter-spacing: 1.5px; color: var(--cream) !important; transition: background .2s; position: relative; z-index: 1; }
+    .dropdown-menu > a:first-child { padding-top: 18px; } .dropdown-menu > a:last-child { padding-bottom: 18px; }
+    .dropdown-menu a:hover { background: rgba(201,168,76,0.1); color: var(--gold) !important; }
+    .dropdown-menu a::after { display: none !important; } .nav-dropdown:hover .dropdown-menu { display: block; }
+    .logo { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; letter-spacing: 8px; color: var(--gold); text-transform: uppercase; text-decoration: none; }
+    .nav-right { display: flex; align-items: center; justify-content: flex-end; gap: 20px; }
+    .nav-icon { background: none; border: none; cursor: pointer; color: var(--cream); transition: color .3s; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .nav-icon span { font-size: 9px; font-family: 'Montserrat', sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+    .nav-icon:hover { color: var(--gold); }
+    .cart-btn { background: var(--gold); color: var(--dark); border: none; padding: 10px 20px; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: background .3s; }
+    .cart-btn:hover { background: var(--gold-light); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 72px 48px 56px;
+      background: var(--dark2);
+      border-bottom: 1px solid rgba(201,168,76,0.08);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+   
+    .page-eyebrow { font-size: 9px; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+    .page-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: var(--gold); }
+    .page-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 6vw, 72px); font-weight: 300; letter-spacing: 3px; line-height: 1; }
+    .page-title em { font-style: italic; color: var(--gold-light); }
+    .page-desc { margin-top: 16px; font-size: 12px; line-height: 2; color: var(--text-soft); font-weight: 300; max-width: 400px; }
+
+    /* ── FILTER TABS ── */
+    .filter-bar {
+      display: flex;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+    .filter-tab {
+      padding: 10px 22px;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      cursor: pointer;
+      border: 1px solid rgba(201,168,76,0.15);
+      border-right: none;
+      background: none;
+      font-family: 'Montserrat', sans-serif;
+      transition: all .3s;
+    }
+    .filter-tab:last-child { border-right: 1px solid rgba(201,168,76,0.15); }
+    .filter-tab:hover { color: var(--gold); border-color: rgba(201,168,76,0.35); }
+    .filter-tab.active { background: var(--gold); color: var(--dark); border-color: var(--gold); font-weight: 600; }
+
+    /* ── FEATURED ARTICLE ── */
+    .featured-article {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 420px;
+      border-bottom: 1px solid rgba(201,168,76,0.08);
+    }
+    .feat-img-wrap { position: relative; overflow: hidden; background: var(--dark3); }
+    .feat-img { width: 100%; height: 100%; object-fit: cover; min-height: 420px; display: block; transition: transform 8s ease; }
+    .featured-article:hover .feat-img { transform: scale(1.04); }
+    .feat-badge { position: absolute; top: 24px; left: 24px; background: var(--gold); color: var(--dark); font-size: 8px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 5px 12px; }
+    .feat-content { background: var(--dark2); padding: 56px 60px; display: flex; flex-direction: column; justify-content: center; }
+    .feat-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+    .feat-category { font-size: 9px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; }
+    .feat-dot { width: 3px; height: 3px; background: rgba(201,168,76,0.4); border-radius: 50%; }
+    .feat-date { font-size: 9px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
+    .feat-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(26px, 3vw, 40px); font-weight: 300; letter-spacing: 1px; line-height: 1.2; margin-bottom: 16px; }
+    .feat-title em { font-style: italic; color: var(--gold-light); }
+    .feat-excerpt { font-size: 12px; line-height: 2; color: var(--text-soft); font-weight: 300; margin-bottom: 28px; }
+    .read-link { font-size: 9px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: gap .3s; }
+    .read-link:hover { gap: 16px; }
+
+    /* ── ARTICLES GRID ── */
+    .articles-section { padding: 64px 48px; background: var(--dark); }
+    .articles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+
+    .article-card { cursor: pointer; }
+    .article-img-wrap { position: relative; overflow: hidden; background: var(--dark3); aspect-ratio: 4/3; margin-bottom: 20px; }
+    .article-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s ease; }
+    .article-card:hover .article-img { transform: scale(1.06); }
+    .article-category-tag { position: absolute; bottom: 0; left: 0; background: rgba(10,10,10,0.85); padding: 6px 14px; font-size: 8px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; }
+    .article-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .article-date { font-size: 9px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
+    .article-read-time { font-size: 9px; letter-spacing: 2px; color: var(--text-muted); }
+    .article-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; letter-spacing: 1px; line-height: 1.3; margin-bottom: 10px; transition: color .3s; }
+    .article-card:hover .article-title { color: var(--gold-light); }
+    .article-excerpt { font-size: 11px; line-height: 1.9; color: var(--text-soft); font-weight: 300; }
+
+    /* ── NEWSLETTER STRIP ── */
+    .journal-newsletter {
+      background: var(--dark2);
+      border-top: 1px solid rgba(201,168,76,0.08);
+      border-bottom: 1px solid rgba(201,168,76,0.08);
+      padding: 56px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+   
+    .newsletter-text p { font-size: 9px; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+    .newsletter-text h3 { font-family: 'Cormorant Garamond', serif; font-size: clamp(24px, 3vw, 36px); font-weight: 300; letter-spacing: 2px; }
+    .newsletter-text h3 em { font-style: italic; color: var(--gold-light); }
+    .newsletter-form { display: flex; flex: 1; max-width: 420px; }
+    .newsletter-form input { flex: 1; background: rgba(255,255,255,0.04); border: 1px solid rgba(201,168,76,0.3); border-right: none; padding: 13px 20px; color: var(--cream); font-family: 'Montserrat', sans-serif; font-size: 11px; letter-spacing: 1px; outline: none; transition: border-color .3s; }
+    .newsletter-form input::placeholder { color: rgba(245,240,232,0.3); }
+    .newsletter-form input:focus { border-color: var(--gold); }
+    .newsletter-form button { background: var(--gold); color: var(--dark); border: none; padding: 13px 24px; font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: background .3s; white-space: nowrap; }
+    .newsletter-form button:hover { background: var(--gold-light); }
+
+    /* ── FOOTER ── */
+    footer { background: #080808; padding: 64px 48px 32px; border-top: 1px solid rgba(201,168,76,0.15); }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; letter-spacing: 8px; color: var(--gold); margin-bottom: 16px; }
+    .footer-tagline { font-size: 11px; color: var(--text-muted); line-height: 1.8; letter-spacing: 1px; margin-bottom: 24px; }
+    .footer-socials { display: flex; gap: 14px; }
+    .social-link { width: 36px; height: 36px; border: 1px solid rgba(201,168,76,0.3); display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--text-muted); text-decoration: none; transition: all .3s; }
+    .social-link:hover { border-color: var(--gold); color: var(--gold); }
+    .footer-col h4 { font-size: 10px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 20px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col ul li a { font-size: 11px; color: var(--text-muted); text-decoration: none; letter-spacing: 1px; transition: color .3s; }
+    .footer-col ul li a:hover { color: var(--gold); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { font-size: 10px; color: rgba(136,136,136,0.6); letter-spacing: 1px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; } .nav-left { display: none; }
+      .page-header { padding: 48px 24px 40px; flex-direction: column; align-items: flex-start; }
+      .featured-article { grid-template-columns: 1fr; }
+      .feat-img { min-height: 280px; }
+      .feat-content { padding: 40px 28px; }
+      .articles-section { padding: 48px 24px; }
+      .articles-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+      .journal-newsletter { padding: 40px 24px; flex-direction: column; align-items: flex-start; }
+      .newsletter-form { max-width: 100%; width: 100%; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .articles-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .filter-bar { gap: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="announcement">✦ Free shipping on orders above ₹1999 &nbsp;|&nbsp; New arrivals: Noir Essence Collection ✦</div>
+
+<nav>
+  <div class="nav-left">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="nav-dropdown">
+        <a href="#">Collections &nbsp;&nbsp;</a>
+        <div class="dropdown-menu">
+          <a href="floral-fresh.html">Floral &amp; Fresh</a>
+          <a href="woody-oud.html">Woody &amp; Oud</a>
+          <a href="oriental-amber.html">Oriental &amp; Amber</a>
+          <a href="aqua-citrus.html">Aqua &amp; Citrus</a>
+          <a href="limited-editions.html">Limited Editions</a>
+        </div>
+      </li>
+      <li class="nav-dropdown">
+        <a href="#">Shop &nbsp;&nbsp;</a>
+        <div class="dropdown-menu">
+          <a href="eau-de-parfum.html">Eau de Parfum</a>
+          <a href="eau-de-toilette.html">Eau de Toilette</a>
+          <a href="gift-sets.html">Gift Sets</a>
+          <a href="travel-size.html">Travel Size</a>
+        </div>
+      </li>
+      <li><a href="our-story.html">Our Story</a></li>
+      <li><a href="journal.html" style="color:var(--gold)">Journal</a></li>
+    </ul>
+  </div>
+  <a href="index.html" class="logo">FRAGNEST</a>
+  <div class="nav-right">
+    <a href="#" class="nav-icon">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <span>Search</span>
+    </a>
+    <a href="#" class="nav-icon">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Account</span>
+    </a>
+    <button class="cart-btn">🛒 Cart (0)</button>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="header-left">
+    <p class="page-eyebrow">Stories &amp; Inspiration</p>
+    <h1 class="page-title">The FRAGNEST<br><em>Journal</em></h1>
+    <p class="page-desc">Notes on craft, ingredients, culture, and the stories behind every scent we create.</p>
+  </div>
+  <div class="filter-bar">
+    <button class="filter-tab active" onclick="setFilter(this)">All</button>
+    <button class="filter-tab" onclick="setFilter(this)">Ingredients</button>
+    <button class="filter-tab" onclick="setFilter(this)">Craft</button>
+    <button class="filter-tab" onclick="setFilter(this)">Culture</button>
+    <button class="filter-tab" onclick="setFilter(this)">Guides</button>
+  </div>
+</div>
+
+<!-- FEATURED ARTICLE -->
+<div class="featured-article">
+  <div class="feat-img-wrap">
+    <img src="photos/agarwood.jpg" class="feat-img" alt="Featured Article" onerror="this.style.background='linear-gradient(160deg,#100800,#1a1000)';this.style.opacity='1'" />
+    <span class="feat-badge">Featured</span>
+  </div>
+  <div class="feat-content">
+    <div class="feat-meta">
+      <span class="feat-category">Ingredients</span>
+      <span class="feat-dot"></span>
+      <span class="feat-date">12 Jan 2025</span>
+    </div>
+    <h2 class="feat-title">Why <em>Agarwood</em> Is the<br>Most Precious Ingredient<br>in Perfumery</h2>
+    <p class="feat-excerpt">
+      Called "liquid gold" by traders and "the wood of the gods" by ancient texts, oud is formed when a specific mould infects the Aquilaria tree. We travelled to Assam to witness its harvest firsthand — and what we found changed how we think about luxury.
+    </p>
+    <a href="#" class="read-link">Read Article →</a>
+  </div>
+</div>
+
+<!-- ARTICLES GRID -->
+<section class="articles-section">
+  <div class="articles-grid">
+
+    <div class="article-card">
+      <div class="article-img-wrap">
+        <img src="photos/velvetoud.jpg" class="article-img" alt="Rose Harvest" onerror="this.style.background='#1a1000'" />
+        <span class="article-category-tag">Craft</span>
+      </div>
+      <div class="article-meta">
+        <span class="article-date">8 Jan 2025</span>
+        <span class="feat-dot" style="width:3px;height:3px;background:rgba(201,168,76,0.4);border-radius:50%;display:inline-block"></span>
+        <span class="article-read-time">5 min read</span>
+      </div>
+      <h3 class="article-title">The Art of Macerating a Fragrance — Why We Wait 6 Weeks</h3>
+      <p class="article-excerpt">Patience is the most expensive ingredient we use. Here's what happens inside the bottle during maceration.</p>
+    </div>
+
+    <div class="article-card">
+      <div class="article-img-wrap">
+        <img src="photos/rosemy.jpg" class="article-img" alt="Grasse" onerror="this.style.background='#1a1000'" />
+        <span class="article-category-tag">Ingredients</span>
+      </div>
+      <div class="article-meta">
+        <span class="article-date">2 Jan 2025</span>
+        <span class="feat-dot" style="width:3px;height:3px;background:rgba(201,168,76,0.4);border-radius:50%;display:inline-block"></span>
+        <span class="article-read-time">4 min read</span>
+      </div>
+      <h3 class="article-title">A Morning in the Rose Fields of Grasse, France</h3>
+      <p class="article-excerpt">8 tonnes of petals for one litre of absolute. We documented every step of the harvest that makes our Rose Mystique possible.</p>
+    </div>
+
+    <div class="article-card">
+      <div class="article-img-wrap">
+        <img src="photos/attar.jpg" class="article-img" alt="Indian Attars" onerror="this.style.background='#1a1000'" />
+        <span class="article-category-tag">Culture</span>
+      </div>
+      <div class="article-meta">
+        <span class="article-date">26 Dec 2024</span>
+        <span class="feat-dot" style="width:3px;height:3px;background:rgba(201,168,76,0.4);border-radius:50%;display:inline-block"></span>
+        <span class="article-read-time">6 min read</span>
+      </div>
+      <h3 class="article-title">India's Ancient Attar Tradition and How We're Keeping It Alive</h3>
+      <p class="article-excerpt">Long before Chanel or Dior, India had its own centuries-old tradition of perfumery. We trace its roots and our role in its revival.</p>
+    </div>
+
+    <div class="article-card">
+      <div class="article-img-wrap">
+        <img src="photos/amberdusk.jpg" class="article-img" alt="Notes Guide" onerror="this.style.background='#1a1000'" />
+        <span class="article-category-tag">Guides</span>
+      </div>
+      <div class="article-meta">
+        <span class="article-date">18 Dec 2024</span>
+        <span class="feat-dot" style="width:3px;height:3px;background:rgba(201,168,76,0.4);border-radius:50%;display:inline-block"></span>
+        <span class="article-read-time">7 min read</span>
+      </div>
+      <h3 class="article-title">Top, Heart &amp; Base Notes: A Beginner's Guide to Fragrance Structure</h3>
+      <p class="article-excerpt">Every fragrance tells a story in three acts. Understanding the note pyramid will change the way you experience scent forever.</p>
+    </div>
+
+    <div class="article-card">
+      <div class="article-img-wrap">
+        <img src="photos/oudnoir.jpg" class="article-img" alt="Saffron Kashmir" onerror="this.style.background='#1a1000'" />
+        <span class="article-category-tag">Ingredients</span>
+      </div>
+      <div class="article-meta">
+        <span class="article-date">10 Dec 2024</span>
+        <span class="feat-dot" style="width:3px;height:3px;background:rgba(201,168,76,0.4);border-radius:50%;display:inline-block"></span>
+        <span class="article-read-time">5 min read</span>
+      </div>
+      <h3 class="article-title">Saffron: Why We Source Ours Directly from Kashmir's Pampore Valley</h3>
+      <p class="article-excerpt">The world's most expensive spice and one of perfumery's most complex materials. A journey to where ours comes from.</p>
+    </div>
+
+    <div class="article-card">
+      <div class="article-img-wrap">
+        <img src="photos/citrus.jpg" class="article-img" alt="Layering Guide" onerror="this.style.background='#1a1000'" />
+        <span class="article-category-tag">Guides</span>
+      </div>
+      <div class="article-meta">
+        <span class="article-date">1 Dec 2024</span>
+        <span class="feat-dot" style="width:3px;height:3px;background:rgba(201,168,76,0.4);border-radius:50%;display:inline-block"></span>
+        <span class="article-read-time">3 min read</span>
+      </div>
+      <h3 class="article-title">How to Layer Fragrances to Create Your Own Signature Scent</h3>
+      <p class="article-excerpt">The art of fragrance layering is a centuries-old practice. Here's a simple framework to make it work for any wardrobe.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- NEWSLETTER STRIP -->
+<div class="journal-newsletter">
+  <div class="newsletter-text">
+    <p>✦ Never Miss a Story</p>
+    <h3>Stories worth <em>savouring</em>,<br>delivered to your inbox.</h3>
+  </div>
+  <div class="newsletter-form">
+    <input type="email" placeholder="Your email address" id="journalEmail" />
+    <button onclick="subscribeJournal()">Subscribe</button>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">FRAGNEST</div>
+      <p class="footer-tagline">Luxury fragrances for the discerning soul.<br>Crafted with the finest ingredients from around the world.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-link">𝕏</a>
+        <a href="#" class="social-link">in</a>
+        <a href="#" class="social-link">ig</a>
+        <a href="#" class="social-link">yt</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="eau-de-parfum.html">Eau de Parfum</a></li>
+        <li><a href="eau-de-toilette.html">Eau de Toilette</a></li>
+        <li><a href="gift-sets.html">Gift Sets</a></li>
+        <li><a href="travel-size.html">Travel Size</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Collections</h4>
+      <ul>
+        <li><a href="floral-fresh.html">Floral &amp; Fresh</a></li>
+        <li><a href="woody-oud.html">Woody &amp; Oud</a></li>
+        <li><a href="oriental-amber.html">Oriental &amp; Amber</a></li>
+        <li><a href="aqua-citrus.html">Aqua &amp; Citrus</a></li>
+        <li><a href="limited-editions.html">Limited Editions</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+      <ul>
+        <li><a href="#">Shipping Info</a></li>
+        <li><a href="#">Returns</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 FRAGNEST. All rights reserved.</p>
+    <p>Made with ♥ for fragrance lovers</p>
+  </div>
+</footer>
+
+<script>
+  function setFilter(el) {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function subscribeJournal() {
+    const input = document.getElementById('journalEmail');
+    if (input.value.includes('@')) {
+      input.value = '';
+      input.placeholder = '✓ Thank you — stories incoming!';
+      setTimeout(() => input.placeholder = 'Your email address', 3000);
+    } else {
+      input.style.borderColor = '#c0392b';
+      setTimeout(() => input.style.borderColor = '', 1500);
+    }
+  }
+
+  // Scroll reveal for article cards
+  const cards = document.querySelectorAll('.article-card');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }
+    });
+  }, { threshold: 0.1 });
+  cards.forEach((c, i) => {
+    c.style.opacity = '0';
+    c.style.transform = 'translateY(20px)';
+    c.style.transition = `opacity 0.5s ease ${(i % 3) * 0.1}s, transform 0.5s ease ${(i % 3) * 0.1}s`;
+    obs.observe(c);
+  });
+</script>
+
+</body>
+</html>

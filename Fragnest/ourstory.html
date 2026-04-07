@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Story — FRAGNEST</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #e8c97e;
+      --dark: #0a0a0a;
+      --dark2: #111111;
+      --dark3: #1a1a1a;
+      --cream: #f5f0e8;
+      --text-muted: #888;
+      --text-soft: rgba(245,240,232,0.65);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--dark); color: var(--cream); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+
+    /* ── ANNOUNCEMENT ── */
+    .announcement { background: var(--gold); color: var(--dark); text-align: center; padding: 8px 16px; font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+
+    /* ── NAV ── */
+    nav { position: sticky; top: 0; z-index: 1000; background: rgba(10,10,10,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(201,168,76,0.2); padding: 0 48px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 72px; }
+    .nav-left { display: flex; align-items: center; }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a { color: var(--cream); text-decoration: none; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; position: relative; transition: color .3s; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--gold); transition: width .3s; }
+    .nav-links a:hover { color: var(--gold); } .nav-links a:hover::after { width: 100%; }
+    .nav-dropdown { position: relative; }
+    .nav-dropdown > a::before { content: '▾'; position: absolute; right: -14px; top: 50%; transform: translateY(-50%); font-size: 10px; color: var(--gold); }
+    .dropdown-menu { display: none; position: absolute; top: 100%; left: -20px; padding-top: 16px; min-width: 180px; z-index: 999; }
+    .dropdown-menu::before { content: ''; display: block; position: absolute; top: 16px; left: 0; right: 0; bottom: 0; background: var(--dark2); border: 1px solid rgba(201,168,76,0.2); z-index: -1; }
+    .dropdown-menu a { display: block; padding: 10px 24px; font-size: 11px; letter-spacing: 1.5px; color: var(--cream) !important; transition: background .2s; position: relative; z-index: 1; }
+    .dropdown-menu > a:first-child { padding-top: 18px; } .dropdown-menu > a:last-child { padding-bottom: 18px; }
+    .dropdown-menu a:hover { background: rgba(201,168,76,0.1); color: var(--gold) !important; }
+    .dropdown-menu a::after { display: none !important; } .nav-dropdown:hover .dropdown-menu { display: block; }
+    .logo { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; letter-spacing: 8px; color: var(--gold); text-transform: uppercase; text-decoration: none; }
+    .nav-right { display: flex; align-items: center; justify-content: flex-end; gap: 20px; }
+    .nav-icon { background: none; border: none; cursor: pointer; color: var(--cream); transition: color .3s; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .nav-icon span { font-size: 9px; font-family: 'Montserrat', sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+    .nav-icon:hover { color: var(--gold); }
+    .cart-btn { background: var(--gold); color: var(--dark); border: none; padding: 10px 20px; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: background .3s; }
+    .cart-btn:hover { background: var(--gold-light); }
+
+    /* ── HERO ── */
+    .story-hero { position: relative; height: 90vh; display: flex; align-items: flex-end; overflow: hidden; background: #050403; }
+    .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.45; }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(5,4,3,0.1) 0%, rgba(5,4,3,0.3) 40%, rgba(5,4,3,0.92) 100%); }
+    .hero-line-accent { position: absolute; left: 48px; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, transparent 10%, rgba(201,168,76,0.4) 40%, rgba(201,168,76,0.2) 80%, transparent 100%); }
+    .hero-content { position: relative; z-index: 2; padding: 0 48px 80px 80px; max-width: 780px; animation: heroReveal 1.4s cubic-bezier(0.22,1,0.36,1) both; }
+    @keyframes heroReveal { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-eyebrow { display: flex; align-items: center; gap: 16px; font-size: 9px; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; margin-bottom: 28px; }
+    .hero-eyebrow::before { content: ''; display: block; width: 40px; height: 1px; background: var(--gold); }
+    .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(56px, 8vw, 108px); font-weight: 300; line-height: 0.95; letter-spacing: 2px; margin-bottom: 32px; }
+    .hero-title .line1 { display: block; }
+    .hero-title .line2 { display: block; font-style: italic; color: var(--gold-light); padding-left: 60px; }
+    .hero-title .line3 { display: block; padding-left: 20px; }
+    .hero-pull { font-size: 13px; line-height: 2; color: var(--text-soft); font-weight: 300; max-width: 520px; border-left: 1px solid rgba(201,168,76,0.3); padding-left: 24px; }
+    .scroll-cue { position: absolute; bottom: 40px; right: 48px; display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 2; animation: heroReveal 1.4s .4s both; }
+    .scroll-cue span { font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; writing-mode: vertical-lr; }
+    .scroll-line { width: 1px; height: 60px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollPulse 2s ease-in-out infinite; }
+    @keyframes scrollPulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+    /* ── ORIGIN — Two-column ── */
+    .origin-section { display: grid; grid-template-columns: 1fr 1fr; min-height: 580px; }
+    .origin-img-wrap { position: relative; overflow: hidden; background: var(--dark3); }
+    .origin-img { width: 100%; height: 100%; object-fit: cover; min-height: 580px; display: block; transition: transform 8s ease; }
+    .origin-section:hover .origin-img { transform: scale(1.04); }
+    .origin-img-caption { position: absolute; bottom: 24px; left: 24px; font-size: 9px; letter-spacing: 3px; color: rgba(245,240,232,0.5); text-transform: uppercase; }
+    .origin-content { background: var(--dark2); padding: 72px 64px; display: flex; flex-direction: column; justify-content: center; }
+    .section-eyebrow { font-size: 9px; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+    .section-eyebrow::after { content: ''; flex: 1; height: 1px; background: rgba(201,168,76,0.2); }
+    .section-heading { font-family: 'Cormorant Garamond', serif; font-size: clamp(30px, 3.5vw, 48px); font-weight: 300; letter-spacing: 2px; line-height: 1.1; margin-bottom: 24px; }
+    .section-heading em { font-style: italic; color: var(--gold-light); }
+    .section-body { font-size: 12px; line-height: 2.1; color: var(--text-soft); font-weight: 300; margin-bottom: 16px; }
+
+    /* ── VALUES ── */
+    .values-section { padding: 100px 48px; background: var(--dark2); border-top: 1px solid rgba(201,168,76,0.08); }
+    .values-header { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; margin-bottom: 56px; }
+    .values-header h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 4vw, 56px); font-weight: 300; letter-spacing: 2px; line-height: 1.05; }
+    .values-header h2 em { font-style: italic; color: var(--gold-light); }
+    .values-header p { font-size: 12px; line-height: 2; color: var(--text-soft); font-weight: 300; }
+    .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .value-card { background: var(--dark3); padding: 40px 36px; transition: background .3s; position: relative; overflow: hidden; }
+    .value-card::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); transform: scaleX(0); transition: transform .4s; }
+    .value-card:hover { background: #141414; }
+    .value-card:hover::before { transform: scaleX(1); }
+    .value-number { font-family: 'Cormorant Garamond', serif; font-size: 56px; font-weight: 300; color: rgba(201,168,76,0.1); line-height: 1; margin-bottom: 12px; }
+    .value-icon { font-size: 26px; margin-bottom: 12px; }
+    .value-title { font-size: 11px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 10px; }
+    .value-desc { font-size: 12px; line-height: 2; color: var(--text-soft); font-weight: 300; }
+
+    /* ── FOUNDER ── */
+    .founder-section { display: grid; grid-template-columns: 1fr 1fr; min-height: 520px; }
+    .founder-content { background: var(--dark); padding: 72px 64px; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid rgba(201,168,76,0.08); }
+    .founder-img-wrap { position: relative; overflow: hidden; background: var(--dark3); }
+    .founder-img { width: 100%; height: 100%; object-fit: cover; min-height: 520px; display: block; transition: transform 8s ease; filter: grayscale(20%); }
+    .founder-section:hover .founder-img { transform: scale(1.03); }
+    .founder-quote { font-family: 'Cormorant Garamond', serif; font-size: clamp(20px, 2.5vw, 32px); font-weight: 300; font-style: italic; line-height: 1.6; letter-spacing: 1px; color: var(--cream); margin-bottom: 28px; padding-left: 24px; border-left: 2px solid var(--gold); }
+    .founder-bio { font-size: 12px; line-height: 2; color: var(--text-soft); font-weight: 300; margin-bottom: 28px; }
+    .founder-sig { display: flex; align-items: center; gap: 20px; }
+    .founder-sig-img { width: 52px; height: 52px; border-radius: 50%; background: var(--dark3); overflow: hidden; border: 1px solid rgba(201,168,76,0.3); display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .founder-sig-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 300; letter-spacing: 2px; color: var(--cream); }
+    .founder-sig-title { font-size: 9px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-top: 2px; }
+
+    /* ── NUMBERS ── */
+    .numbers-section { padding: 72px 48px; background: var(--dark); display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid rgba(201,168,76,0.08); border-bottom: 1px solid rgba(201,168,76,0.08); }
+    .number-item { text-align: center; padding: 20px; border-right: 1px solid rgba(201,168,76,0.08); }
+    .number-item:last-child { border-right: none; }
+    .number-value { font-family: 'Cormorant Garamond', serif; font-size: clamp(44px, 5vw, 72px); font-weight: 300; color: var(--gold); line-height: 1; margin-bottom: 10px; }
+    .number-label { font-size: 9px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; }
+
+    /* ── CTA ── */
+    .story-cta { position: relative; overflow: hidden; padding: 100px 48px; text-align: center; background: #050403; }
+    .cta-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.3; }
+    .cta-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(5,4,3,0.6), rgba(5,4,3,0.8)); }
+    .cta-content { position: relative; z-index: 2; max-width: 600px; margin: 0 auto; }
+    .cta-content .section-eyebrow { justify-content: center; }
+    .cta-content .section-eyebrow::after { display: none; }
+    .cta-content h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 5vw, 64px); font-weight: 300; letter-spacing: 3px; line-height: 1.1; margin-bottom: 20px; }
+    .cta-content h2 em { font-style: italic; color: var(--gold-light); }
+    .cta-content p { font-size: 12px; line-height: 2; color: var(--text-soft); font-weight: 300; margin-bottom: 36px; }
+    .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: var(--gold); color: var(--dark); padding: 14px 40px; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; transition: all .3s; display: inline-block; }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: var(--cream); padding: 14px 40px; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; border: 1px solid rgba(245,240,232,0.3); cursor: pointer; transition: all .3s; display: inline-block; }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer { background: #080808; padding: 64px 48px 32px; border-top: 1px solid rgba(201,168,76,0.15); }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; letter-spacing: 8px; color: var(--gold); margin-bottom: 16px; }
+    .footer-tagline { font-size: 11px; color: var(--text-muted); line-height: 1.8; letter-spacing: 1px; margin-bottom: 24px; }
+    .footer-socials { display: flex; gap: 14px; }
+    .social-link { width: 36px; height: 36px; border: 1px solid rgba(201,168,76,0.3); display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--text-muted); text-decoration: none; transition: all .3s; }
+    .social-link:hover { border-color: var(--gold); color: var(--gold); }
+    .footer-col h4 { font-size: 10px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 20px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col ul li a { font-size: 11px; color: var(--text-muted); text-decoration: none; letter-spacing: 1px; transition: color .3s; }
+    .footer-col ul li a:hover { color: var(--gold); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { font-size: 10px; color: rgba(136,136,136,0.6); letter-spacing: 1px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; } .nav-left { display: none; }
+      .hero-content { padding: 0 24px 60px 40px; }
+      .hero-line-accent { left: 24px; }
+      .origin-section, .founder-section { grid-template-columns: 1fr; }
+      .origin-img, .founder-img { min-height: 300px; }
+      .origin-content, .founder-content { padding: 48px 28px; }
+      .values-section { padding: 64px 24px; }
+      .values-header { grid-template-columns: 1fr; gap: 24px; }
+      .values-grid { grid-template-columns: 1fr; }
+      .numbers-section { grid-template-columns: repeat(2, 1fr); padding: 48px 24px; }
+      .number-item:nth-child(2) { border-right: none; }
+      .story-cta { padding: 72px 24px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .hero-title { font-size: 48px; }
+      .values-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="announcement">✦ Free shipping on orders above ₹1999 &nbsp;|&nbsp; New arrivals: Noir Essence Collection ✦</div>
+
+<nav>
+  <div class="nav-left">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="nav-dropdown">
+        <a href="#">Collections &nbsp;&nbsp;</a>
+        <div class="dropdown-menu">
+          <a href="floral-fresh.html">Floral &amp; Fresh</a>
+          <a href="woody-oud.html">Woody &amp; Oud</a>
+          <a href="oriental-amber.html">Oriental &amp; Amber</a>
+          <a href="aqua-citrus.html">Aqua &amp; Citrus</a>
+          <a href="limited-editions.html">Limited Editions</a>
+        </div>
+      </li>
+      <li class="nav-dropdown">
+        <a href="#">Shop &nbsp;&nbsp;</a>
+        <div class="dropdown-menu">
+          <a href="eau-de-parfum.html">Eau de Parfum</a>
+          <a href="eau-de-toilette.html">Eau de Toilette</a>
+          <a href="gift-sets.html">Gift Sets</a>
+          <a href="travel-size.html">Travel Size</a>
+        </div>
+      </li>
+      <li><a href="our-story.html" style="color:var(--gold)">Our Story</a></li>
+      <li><a href="journal.html">Journal</a></li>
+    </ul>
+  </div>
+  <a href="index.html" class="logo">FRAGNEST</a>
+  <div class="nav-right">
+    <a href="#" class="nav-icon">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <span>Search</span>
+    </a>
+    <a href="#" class="nav-icon">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Account</span>
+    </a>
+    <button class="cart-btn">🛒 Cart (0)</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="story-hero">
+  <img src="photos/story2.jpg" class="hero-img" alt="Our Story" onerror="this.style.opacity='0'" />
+  <div class="hero-overlay"></div>
+  <div class="hero-line-accent"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Est. 2020 &nbsp;·&nbsp; Mumbai, India</p>
+    <h1 class="hero-title">
+      <span class="line1">Born from</span>
+      <span class="line2">passion,</span>
+      <span class="line3">Bottled with soul.</span>
+    </h1>
+    <p class="hero-pull">
+      FRAGNEST began not as a business, but as an obsession — a relentless pursuit of the perfect scent. Five years, three continents, and thousands of formulations later, we are still chasing that elusive, transcendent moment when fragrance and memory become one.
+    </p>
+  </div>
+  <div class="scroll-cue">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ORIGIN STORY -->
+<div class="origin-section">
+  <div class="origin-img-wrap">
+    <img src="photos/ourstory.jpg" class="origin-img" alt="The Beginning" onerror="this.style.background='linear-gradient(160deg,#100800,#200f00)'" />
+    <p class="origin-img-caption">Mumbai, 2020</p>
+  </div>
+  <div class="origin-content">
+    <p class="section-eyebrow">The Beginning</p>
+    <h2 class="section-heading">A Tiny Lab.<br>An <em>Enormous</em> Dream.</h2>
+    <p class="section-body">
+      It started in a 200 sq ft Mumbai apartment, with a folding table, 40 raw materials sourced from around the world, and an absolute refusal to accept that luxury fragrances should only come from France or the UAE.
+    </p>
+    <p class="section-body">
+      Our founder, Aryan Mehta, spent seven years in Grasse — the perfume capital of the world — before returning with a vision: to create world-class fragrances that carried the soul of India without apology. The first batch of Velvet Oud — 50 bottles — sold out in three hours. That was all the confirmation he needed.
+    </p>
+  </div>
+</div>
+
+<!-- NUMBERS -->
+<div class="numbers-section">
+  <div class="number-item">
+    <div class="number-value" id="n1">0</div>
+    <p class="number-label">Fragrances Created</p>
+  </div>
+  <div class="number-item">
+    <div class="number-value" id="n2">0</div>
+    <p class="number-label">Happy Customers</p>
+  </div>
+  <div class="number-item">
+    <div class="number-value" id="n3">0</div>
+    <p class="number-label">Countries Sourced From</p>
+  </div>
+  <div class="number-item">
+    <div class="number-value" id="n4">0</div>
+    <p class="number-label">Years of Craft</p>
+  </div>
+</div>
+
+<!-- VALUES -->
+<section class="values-section">
+  <div class="values-header">
+    <div>
+      <p class="section-eyebrow">What We Stand For</p>
+      <h2>Our <em>Values</em><br>Never Compromise.</h2>
+    </div>
+    <p>Every decision we make — from the farmer we source from, to the bottle we choose — is guided by values we formed on day one and have never wavered from.</p>
+  </div>
+  <div class="values-grid">
+    <div class="value-card">
+      <div class="value-number">01</div>
+      <div class="value-icon">🌿</div>
+      <p class="value-title">Purity of Ingredients</p>
+      <p class="value-desc">We never use synthetic shortcuts for notes that can be sourced naturally. If it takes 8 tonnes of rose petals to produce a single litre of absolute, so be it.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-number">02</div>
+      <div class="value-icon">🤝</div>
+      <p class="value-title">Fair Source Partnerships</p>
+      <p class="value-desc">Every grower and distiller we work with receives above-market rates and long-term contracts. Their livelihood is as important to us as our own.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-number">03</div>
+      <div class="value-icon">🎨</div>
+      <p class="value-title">Artisan Craftsmanship</p>
+      <p class="value-desc">No mass production. Every batch is blended by hand, tested over weeks, and approved only when it meets the uncompromising standard of our founder.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-number">04</div>
+      <div class="value-icon">♻️</div>
+      <p class="value-title">Sustainable Packaging</p>
+      <p class="value-desc">All our bottles are refillable. Our boxes are made from recycled materials. Our shipping packaging is 100% compostable by 2026.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-number">05</div>
+      <div class="value-icon">🇮🇳</div>
+      <p class="value-title">Proudly Indian</p>
+      <p class="value-desc">We celebrate the richness of Indian perfumery — oud, sandalwood, jasmine, saffron — and place it confidently alongside the finest in the world.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-number">06</div>
+      <div class="value-icon">💫</div>
+      <p class="value-title">Emotion First</p>
+      <p class="value-desc">We don't create fragrances for the nose. We create them for the heart — for the moment someone smells one of ours and suddenly remembers something beautiful.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<div class="founder-section">
+  <div class="founder-content">
+    <p class="section-eyebrow">The Founder</p>
+    <p class="founder-quote">
+      "I didn't want to build a perfume company. I wanted to build something that made people feel more themselves."
+    </p>
+    <p class="founder-bio">
+      Aryan Mehta spent seven years in Grasse, France before returning to Mumbai with a suitcase full of raw materials and a notebook of formulations that would become FRAGNEST's first six fragrances. Trained under legendary perfumer Henri Belfort, Aryan combines the classical French method with a deep reverence for Indian botanical traditions to create fragrances that are simultaneously global and unmistakably rooted.
+    </p>
+    <div class="founder-sig">
+      <div class="founder-sig-img">🧑‍🎨</div>
+      <div>
+        <p class="founder-sig-name">Aryan Mehta</p>
+        <p class="founder-sig-title">Founder &amp; Master Perfumer</p>
+      </div>
+    </div>
+  </div>
+  <div class="founder-img-wrap">
+    <img src="photos/story1.jpg" class="founder-img" alt="Aryan Mehta" onerror="this.style.background='linear-gradient(160deg,#0a0800,#180f00)'" />
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="story-cta">
+  <img src="photos/hero.jpg" class="cta-img" alt="FRAGNEST" onerror="this.style.opacity='0'" />
+  <div class="cta-overlay"></div>
+  <div class="cta-content">
+    <p class="section-eyebrow" style="justify-content:center;margin-bottom:20px;">✦ Begin Your Journey</p>
+    <h2>Find Your<br><em>Signature Scent</em></h2>
+    <p>Every FRAGNEST fragrance is waiting to become part of your story. Explore our full collection and discover the one made for you.</p>
+    <div class="cta-btns">
+      <a href="eau-de-parfum.html" class="btn-primary">Shop Now</a>
+      <a href="floral-fresh.html" class="btn-outline">Explore Collections</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">FRAGNEST</div>
+      <p class="footer-tagline">Luxury fragrances for the discerning soul.<br>Crafted with the finest ingredients from around the world.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-link">𝕏</a>
+        <a href="#" class="social-link">in</a>
+        <a href="#" class="social-link">ig</a>
+        <a href="#" class="social-link">yt</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="eau-de-parfum.html">Eau de Parfum</a></li>
+        <li><a href="eau-de-toilette.html">Eau de Toilette</a></li>
+        <li><a href="gift-sets.html">Gift Sets</a></li>
+        <li><a href="travel-size.html">Travel Size</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Collections</h4>
+      <ul>
+        <li><a href="floral-fresh.html">Floral &amp; Fresh</a></li>
+        <li><a href="woody-oud.html">Woody &amp; Oud</a></li>
+        <li><a href="oriental-amber.html">Oriental &amp; Amber</a></li>
+        <li><a href="aqua-citrus.html">Aqua &amp; Citrus</a></li>
+        <li><a href="limited-editions.html">Limited Editions</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+      <ul>
+        <li><a href="#">Shipping Info</a></li>
+        <li><a href="#">Returns</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 FRAGNEST. All rights reserved.</p>
+    <p>Made with ♥ for fragrance lovers</p>
+  </div>
+</footer>
+
+<script>
+  const counters = [
+    { id: 'n1', target: 60, suffix: '+' },
+    { id: 'n2', target: 50000, suffix: '+' },
+    { id: 'n3', target: 12, suffix: '' },
+    { id: 'n4', target: 5, suffix: '' },
+  ];
+  const formatNum = (n) => n >= 1000 ? (n/1000).toFixed(0) + 'k' : n.toString();
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        counters.forEach(c => {
+          const el = document.getElementById(c.id);
+          if (!el || el.dataset.animated) return;
+          el.dataset.animated = true;
+          let start = 0;
+          const step = (timestamp) => {
+            if (!start) start = timestamp;
+            const progress = Math.min((timestamp - start) / 2000, 1);
+            const ease = 1 - Math.pow(1 - progress, 3);
+            el.textContent = formatNum(Math.floor(ease * c.target)) + c.suffix;
+            if (progress < 1) requestAnimationFrame(step);
+            else el.textContent = formatNum(c.target) + c.suffix;
+          };
+          requestAnimationFrame(step);
+        });
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+  const numbersSection = document.querySelector('.numbers-section');
+  if (numbersSection) observer.observe(numbersSection);
+
+  const revealEls = document.querySelectorAll('.value-card');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = `opacity 0.6s ease ${(i % 3) * 0.1}s, transform 0.6s ease ${(i % 3) * 0.1}s`;
+    revealObs.observe(el);
+  });
+</script>
+</body>
+</html>
